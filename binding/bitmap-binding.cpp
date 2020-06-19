@@ -192,6 +192,22 @@ RB_METHOD(bitmapClear) {
   return self;
 }
 
+RB_METHOD(bitmapSwapPalette) {
+  Bitmap *b = getPrivateData<Bitmap>(self);
+
+  VALUE vOC, vNC;
+
+  rb_get_args(argc, argv, "oo", &vOC, &vNC RB_ARG_END);
+
+  Color *oc, *nc;
+  oc = getPrivateDataCheck<Color>(vOC, ColorType);
+  nc = getPrivateDataCheck<Color>(vNC, ColorType);
+
+  GUARD_EXC(b->swapPalette(*oc, *nc););
+
+  return self;
+}
+
 RB_METHOD(bitmapGetPixel) {
   Bitmap *b = getPrivateData<Bitmap>(self);
 
@@ -483,6 +499,7 @@ void bitmapBindingInit() {
   _rb_define_method(klass, "stretch_blt", bitmapStretchBlt);
   _rb_define_method(klass, "fill_rect", bitmapFillRect);
   _rb_define_method(klass, "clear", bitmapClear);
+  _rb_define_method(klass, "swap_palette", bitmapGetPixel);
   _rb_define_method(klass, "get_pixel", bitmapGetPixel);
   _rb_define_method(klass, "set_pixel", bitmapSetPixel);
   _rb_define_method(klass, "hue_change", bitmapHueChange);

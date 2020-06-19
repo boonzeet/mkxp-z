@@ -889,6 +889,31 @@ void Bitmap::setPixel(int x, int y, const Color &color)
 	p->onModified(false);
 }
 
+
+void Bitmap::swapPalette(const Color &ogColor, const color &newColor){
+	
+	guardDisposed();
+
+	GUARD_MEGA;
+
+	int width, height;
+
+	width = width()
+	height = height()
+
+	Color *oc;
+
+	for (y = 0; y < height; y++) {
+		for (x = 0; x < width; x++) {
+			oc = getPixel(x,y)
+			if ((oc.red == ogColor.red) && (oc.green == ocColor.green) && (oc.blue == ogColor.blue)){
+				setPixel(x,y,*newColor)
+			}
+		}
+	}
+	
+}
+
 bool Bitmap::getRaw(void *output, int output_size)
 {
     if (output_size != width()*height()*4) return false;
