@@ -1,8 +1,10 @@
 # mkxp-z
 
-![ss](/screenshot.png?raw=true)
+This is a fork of mkxp-z, a fork of mkxp intended to be a little more than just a barebones recreation of RPG Maker. The original goal was successfully running games based on Pokemon Essentials, which is notoriously dependent on Windows APIs. I'd consider that mission accomplished.
 
-This is a fork of mkxp intended to be a little more than just a barebones recreation of RPG Maker. The original goal was successfully running games based on Pokemon Essentials, which is notoriously dependent on Windows APIs. I'd consider that mission accomplished.
+Features added:
+
+* Bitmap color swapping
 
 ## Bindings
 Bindings provide the glue code for an interpreted language environment to run game scripts in. mkxp-z focuses on MRI and as such the mruby and null bindings are not included. The original MRI bindings remain. Please see the original README for more details.
