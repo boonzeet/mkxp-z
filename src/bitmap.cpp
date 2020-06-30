@@ -896,18 +896,13 @@ void Bitmap::swapPalette(const Color &ogColor, const color &newColor){
 
 	GUARD_MEGA;
 
-	int width, height;
+	Color oc;
 
-	width = width()
-	height = height()
-
-	Color *oc;
-
-	for (y = 0; y < height; y++) {
-		for (x = 0; x < width; x++) {
+	for (int y = 0; y < height(); y++) {
+		for (int x = 0; x < width(); x++) {
 			oc = getPixel(x,y)
 			if ((oc.red == ogColor.red) && (oc.green == ocColor.green) && (oc.blue == ogColor.blue)){
-				setPixel(x,y,*newColor)
+				setPixel(x,y,newColor)
 			}
 		}
 	}
