@@ -19,6 +19,12 @@
 ** along with mkxp.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <cstdlib>
+#include <cmath>
+#include <vector>
+#include <string>
+#include <sstream>
+
 #include "bitmap.h"
 
 #include <SDL.h>
@@ -43,6 +49,9 @@
 #include "filesystem.h"
 #include "font.h"
 #include "eventthread.h"
+
+
+using namespace std;
 
 #define GUARD_MEGA \
 	{ \
@@ -890,7 +899,7 @@ void Bitmap::setPixel(int x, int y, const Color &color)
 }
 
 
-void Bitmap::swapPalette(const Color &ogColor, const Color &newColor){
+void Bitmap::swapColor(const Color &ogColor, const Color &newColor){
 	
 	guardDisposed();
 
@@ -907,6 +916,67 @@ void Bitmap::swapPalette(const Color &ogColor, const Color &newColor){
 		}
 	}
 }
+
+std::vector<Color> parsePalette(std::string input)
+{
+	std::stringstream stream(input);
+	std::string line;
+	std::vector<Color> parsedCsv;
+	while (std::getline(stream, line))
+	{
+		std::stringstream lineStream(line);
+		std::string cell;
+		std::vector<std::string> parsedRow;
+		while (std::getline(lineStream, cell, ','))
+		{
+			parsedRow.push_back(cell);
+		}
+
+		Color color = Color { std::stod(parsedRow.at(0)), std::stod(parsedRow.at(1)), std::stod(parsedRow.at(2)), 255 };
+
+		parsedCsv.push_back(color);
+	}
+	return parsedCsv;
+};
+
+
+void Bitmap::swapPalette(char* og_palette,char* palette){
+	guardDisposed();
+
+	GUARD_MEGA;
+
+	std::string og_palette_string(og_palette);
+	std::string palette_string(palette);
+
+	std::vector<Color> ogPalette = parsePalette(og_palette_string);
+	std::vector<Color> newPalette = parsePalette(palette_string);
+	const int size = ogPalette.size();
+	const int newSize = newPalette.size();
+	
+	Color oc;
+
+	int changeAt = -1;
+	int i = 0;
+
+	for (int y = 0; y < height(); y++) {
+		for (int x = 0; x < width(); x++) {
+			changeAt = -1;
+			oc = getPixel(x,y);
+
+			for (i = 0; i < size; i++) {
+				Color curColor = ogPalette.at(i);
+				if ((oc.red == curColor.red) && (oc.green == curColor.green) && (oc.blue == curColor.blue)) {
+					changeAt = i;
+				}
+			}
+			if ((changeAt > -1) && (changeAt >= newSize == false)) {
+				Color newColor = newPalette.at(changeAt);
+				setPixel(x,y,newColor);
+			}
+		}
+	}
+}
+
 
 bool Bitmap::getRaw(void *output, int output_size)
 {
