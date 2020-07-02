@@ -81,7 +81,7 @@ public:
 
 	void clear();
 
-	void swapPalette(Color &ogColor, Color &newColor);
+	void swapPalette(const Color &ogColor,const Color &newColor);
 	
 	Color getPixel(int x, int y) const;
 	void setPixel(int x, int y, const Color &color);

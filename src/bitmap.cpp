@@ -890,7 +890,7 @@ void Bitmap::setPixel(int x, int y, const Color &color)
 }
 
 
-void Bitmap::swapPalette(const Color &ogColor, const color &newColor){
+void Bitmap::swapPalette(const Color &ogColor, const Color &newColor){
 	
 	guardDisposed();
 
@@ -900,13 +900,12 @@ void Bitmap::swapPalette(const Color &ogColor, const color &newColor){
 
 	for (int y = 0; y < height(); y++) {
 		for (int x = 0; x < width(); x++) {
-			oc = getPixel(x,y)
-			if ((oc.red == ogColor.red) && (oc.green == ocColor.green) && (oc.blue == ogColor.blue)){
-				setPixel(x,y,newColor)
+			oc = getPixel(x,y);
+			if ((oc.red == ogColor.red) && (oc.green == ogColor.green) && (oc.blue == ogColor.blue)){
+				setPixel(x,y,newColor);
 			}
 		}
 	}
-	
 }
 
 bool Bitmap::getRaw(void *output, int output_size)
